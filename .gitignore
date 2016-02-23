@@ -3,3 +3,4 @@
 composer.lock
 server.develop.php
 .idea
+.phpintel/

@@ -12,12 +12,12 @@ $eventsManager->attach('micro', new \PhalconRest\Middleware\NotFound);
 /**
  * Authenticate user
  */
-$eventsManager->attach('micro', new \PhalconRest\Middleware\Authentication);
+//$eventsManager->attach('micro', new \PhalconRest\Middleware\Authentication);
 
 /**
  * Authorize endpoints
  */
-$eventsManager->attach('micro', new \PhalconRest\Middleware\Acl($config->acl->privateEndpoints, $config->acl->publicEndpoints));
+//$eventsManager->attach('micro', new \PhalconRest\Middleware\Acl($config->acl->privateEndpoints, $config->acl->publicEndpoints));
 
 /**
  * Fractal - Set includes

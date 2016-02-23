@@ -1,11 +1,11 @@
 <?php
 
-class ProductCollection extends \Phalcon\Mvc\Micro\Collection
+class PlaceCollection extends \Phalcon\Mvc\Micro\Collection
 {
     public function __construct()
     {
-        $this->setHandler('ProductController', true);
-        $this->setPrefix('/products');
+        $this->setHandler('PlaceController', true);
+        $this->setPrefix('/places');
 
         $this->get('/', 'all');
         $this->post('/', 'create');

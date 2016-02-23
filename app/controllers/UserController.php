@@ -19,6 +19,7 @@ class UserController extends \App\Mvc\Controller
      */
     public function me()
     {
+        
         return $this->respondItem($this->user, new \UserTransformer, 'user');
     }
 

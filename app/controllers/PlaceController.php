@@ -4,31 +4,44 @@ use PhalconRest\Constants\ErrorCodes as ErrorCodes;
 use PhalconRest\Exceptions\UserException;
 
 /**
- * @resource("Product")
+ * @resource("Place")
  */
-class ProductController extends \App\Mvc\Controller
+class PlaceController extends \App\Mvc\Controller
 {
     /**
      * @title("All")
-     * @description("Get all products")
-     * @response("Collection of Product objects or Error object")
-     * @requestExample("GET /products")
+     * @description("Get all Places")
+     * @response("Collection of Place objects or Error object")
+     * @requestExample("GET /places")
      * @responseExample({
-     *     "product": {
+     *     "place": {
      *         "id": 144,
-     *         "title": "Title",
-     *         "brand": "Brand name",
-     *         "color": "green",
-     *         "createdAt": "1427646703000",
-     *         "updatedAt": "1427646703000"
+     *         "name": "Title",
+     *         "placeId": "ChIJmatyUEl4GZURzf6ZZ20LvBw",
+     *         "address": "Rua Ramiro Barcelos, 2350",
+     *         "website": "http://www.hcpa.ufrgs.br/",
+     *         "open_hours": "not available",
+     *         "phone": "(51) 3359-8000",
+     *         "qualityIndex": 10.2,
+     *         "rankingPosition": 2,
+     *         "rankingStatus": "up",
+     *         "createdAt": "2016-02-23 00:00:00",
+     *         "updatedAt": "2016-02-23 00:00:00",
      *     }
      * })
      */
+
+    
     public function all()
     {
-        $products = Product::find();
+        $places = Place::find('1=1 limit 1');
 
-        return $this->respondCollection($products, new ProductTransformer(), 'products');
+        //$places = '';
+         // echo '<pre>';
+         // print_r($places);
+         // echo '</pre>';
+
+        return $this->respondCollection($places, new PlaceTransformer(), 'place');
     }
 
     /**
