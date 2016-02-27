@@ -8,6 +8,68 @@ use PhalconRest\Exceptions\UserException;
  */
 class PlaceController extends \App\Mvc\Controller
 {
+    public function test() {
+        $google_id = 'ChIJmatyUEl4GZURzf6ZZ20LvBw'; //HPS Googleid
+
+
+        $cidade = 'Porto Alegre';
+        $estado = 'RS';
+
+        // $place = Place::findFirst([
+        //     'conditions' => 'google_id = :google_id:',
+        //     'bind' => ['google_id' => $google_id]
+        // ])->toArray();
+
+
+        //$state = State::findFirst("letter = 'RS'")->toArray();
+        //$city  = City::find("title like '%Porto%' and id_state=1")->toArray();
+
+        $robot = Place::findFirstByTitle('Porto Alegre')->toArray();
+
+
+
+        print_r($robot);
+        die('.');
+
+
+        $city = City::findFirst('name = "Shinichi Osawa"');
+
+
+
+        // $data = 
+        // return [
+        //     'id'             => 'id',
+        //     'id_type'        => 'id_type',
+        //     'name'           => 'name',
+        //     'google_id'      => 'google_id',
+        //     'id_city'        => 'id_city',
+        //     'status'         => 'status',
+        //     'created_at'     => 'created_at',
+        //     'updated_at'     => 'updated_at'
+        // ];
+        
+
+        print_r($data);
+        //die('dieeeee');
+
+        $place = new Place;
+        $place->assign((array)$data);
+
+        if (!$place->save()) {
+            throw new UserException(ErrorCodes::DATA_FAIL, 'Could not create place.');
+        }
+
+        return $this->respondItem($place, new PlaceTransformer, 'place');
+
+
+        return $place;
+    }
+
+
+
+
+
+
     /**
      * @title("All")
      * @description("Get all Places")
@@ -34,12 +96,16 @@ class PlaceController extends \App\Mvc\Controller
     
     public function all()
     {
-        $places = Place::find('1=1 limit 1');
+        $places = Place::find();
+
+        //print_r($places->City);
 
         //$places = '';
          // echo '<pre>';
          // print_r($places);
          // echo '</pre>';
+        //$city = new City;
+        //print_r($city->findFirst(1));
 
         return $this->respondCollection($places, new PlaceTransformer(), 'place');
     }
@@ -59,15 +125,76 @@ class PlaceController extends \App\Mvc\Controller
      *     }
      * })
      */
-    public function find($product_id)
+    public function find($google_id)
     {
-        $product = Product::findFirst((int)$product_id);
 
-        if (!$product) {
-            throw new UserException(ErrorCodes::DATA_NOTFOUND, 'Product with id: #' . (int)$product_id . ' could not be found.');
+        //search place with google id where
+        $place = Place::findFirst([
+            'conditions' => 'google_id = :google_id:',
+            'bind' => ['google_id' => $google_id]
+        ]);
+
+
+        foreach ($place->Teste as $c) {
+            echo 'teste';
         }
 
-        return $this->respondItem($product, new ProductTransformer, 'product');
+die('.');
+        echo '<pre>';
+            print_r($place->getCityName());
+        echo '</pre>';
+
+        if (!$place) {
+            //throw new UserException(ErrorCodes::DATA_NOTFOUND, 'Place with google_id: ' . $google_id . ' could not be found.');
+
+            //if place doesn't exists in avb database, save new place.
+            $GAPIKEY = 'AIzaSyAK2M_BGN4hWEYVVhx9OaDPjafcZEBdAy0';
+            $url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid='.$google_id.'&key='.$GAPIKEY;
+            $gjson = json_decode(file_get_contents($url), true);
+            
+
+            $gresult = $gjson['result'];
+            //print_r($gresult);
+            
+        //     $data = [
+            
+        //     'name' => $gresult['name'],
+        //     'google_id' => $google_id,
+        //     'id_type' => 5,
+        //     'id_city' => 4927,
+        //     'status' => 6,
+        // ];
+            
+            $data = array(
+                'id_type'       => 5,
+                'name'          => $gresult['name'],
+                'status'        => 6,
+                'id_city'       => 4927,
+                'google_id'     => $google_id
+            );
+
+            
+            
+            $new_place = new Place;
+            $new_place->assign($data);
+
+            
+
+
+            echo ($new_place->save());
+die('test');            
+
+
+
+            if (!$new_place->save()) {
+                throw new UserException(ErrorCodes::DATA_FAIL, 'Could not create place.');
+            }
+            return $this->respondItem($new_place, new PlaceTransformer, 'place');
+        
+
+        } else {
+            return $this->respondItem($place, new PlaceTransformer, 'place');
+        }
     }
 
     /**
@@ -95,15 +222,19 @@ class PlaceController extends \App\Mvc\Controller
     public function create()
     {
         $data = $this->request->getJsonRawBody();
+        
 
-        $product = new Product;
-        $product->assign((array)$data);
+        print_r($data);
+        //die('dieeeee');
 
-        if (!$product->save()) {
-            throw new UserException(ErrorCodes::DATA_FAIL, 'Could not create product.');
+        $place = new Place;
+        $place->assign((array)$data);
+
+        if (!$place->save()) {
+            throw new UserException(ErrorCodes::DATA_FAIL, 'Could not create place.');
         }
 
-        return $this->respondItem($product, new ProductTransformer, 'product');
+        return $this->respondItem($place, new PlaceTransformer, 'place');
     }
 
     /**
@@ -140,28 +271,5 @@ class PlaceController extends \App\Mvc\Controller
         }
 
         return $this->respondItem($product, new ProductTransformer, 'product');
-    }
-
-    /**
-     * @title("Remove")
-     * @description("Remove a product")
-     * @response("Result object or Error object")
-     * @responseExample({
-     *     "result": "OK"
-     * })
-     */
-    public function delete($product_id)
-    {
-        $product = Product::findFirst((int)$product_id);
-
-        if (!$product) {
-            throw new UserException(ErrorCodes::DATA_NOTFOUND, 'Could not find product.');
-        }
-
-        if (!$product->delete()) {
-            throw new UserException(ErrorCodes::DATA_FAIL, 'Could not remove product.');
-        }
-
-        return $this->respondOK();
     }
 }

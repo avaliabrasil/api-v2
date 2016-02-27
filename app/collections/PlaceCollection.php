@@ -9,8 +9,10 @@ class PlaceCollection extends \Phalcon\Mvc\Micro\Collection
 
         $this->get('/', 'all');
         $this->post('/', 'create');
-        $this->post('/{product_id}', 'update');
-        $this->get('/{product_id}', 'find');
-        $this->delete('/{product_id}', 'delete');
+        $this->post('/{google_id}', 'update');
+        $this->get('/{google_id}', 'find');
+
+		$this->get('/test', 'test');
+
     }
 }

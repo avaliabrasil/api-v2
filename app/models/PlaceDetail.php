@@ -1,6 +1,6 @@
 <?php
 
-class Place extends \App\Mvc\Model
+class PlaceDetail extends \App\Mvc\Model
 {
     public $id;
     public $name;
@@ -31,12 +31,12 @@ class Place extends \App\Mvc\Model
         ];
     }
 
-    public function initialize() {
-        $this->belongsTo('city_id', 'City', 'id', array(
-            "alias" => "CityName",
-        ));
-    }
-    public function getCityName() {
-        return 'Porto Alegre';
+    public function validateRules()
+    {
+        return [
+         //   'name' => 'min:2|max:55|required',
+            /*'brand' => 'min:2|max:55',
+            'color' => 'min:2|max:6',*/
+        ];
     }
 }
