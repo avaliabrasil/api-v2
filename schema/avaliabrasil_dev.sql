@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.24)
 # Database: avaliabrasil_dev
-# Generation Time: 2016-02-27 12:47:25 PM +0000
+# Generation Time: 2016-02-27 1:35:21 PM +0000
 # ************************************************************
 
 
@@ -88,7 +88,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime DEFAULT NULL,
   `status` tinyint(1) unsigned zerofill NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -6130,7 +6130,7 @@ CREATE TABLE `masterdimension` (
   `name` varchar(45) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `id_masterinstrument` int(11) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idinstrumento-master_idx` (`id_masterinstrument`),
   CONSTRAINT `idinstrumento-master-dim` FOREIGN KEY (`id_masterinstrument`) REFERENCES `masterinstrument` (`id`) ON UPDATE CASCADE
@@ -6146,7 +6146,7 @@ DROP TABLE IF EXISTS `masterinstrument`;
 CREATE TABLE `masterinstrument` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `likertpoints` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -6164,8 +6164,8 @@ CREATE TABLE `place` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_type` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `id_city` int(11) NOT NULL,
   `google_id` varchar(30) NOT NULL DEFAULT '',
@@ -6402,7 +6402,7 @@ CREATE TABLE `place_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_category` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -6654,7 +6654,7 @@ DROP TABLE IF EXISTS `survey`;
 
 CREATE TABLE `survey` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_place` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
@@ -6679,7 +6679,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` datetime NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `usertype` int(11) NOT NULL DEFAULT '0',
   `email` varchar(100) DEFAULT NULL,

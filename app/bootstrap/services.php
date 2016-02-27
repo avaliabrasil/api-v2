@@ -2,7 +2,7 @@
 
 use App\Constants\Services as AppServices;
 
-$di = new \PhalconRest\Di\FactoryDefault();
+$di = new \PhalconRest\DI\FactoryDefault();
 
 /**
  * @description Phalcon - \Phalcon\Config
