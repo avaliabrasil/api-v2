@@ -93,19 +93,16 @@ class PlaceController extends \App\Mvc\Controller
      * })
      */
 
-    public function findByName($name)
+ 
+
+    
+    public function all($name = '')
     {
         $places = Place::find(
             array(
             "conditions" => "name LIKE '%" . $name . "%'",
+            "limit" => 20
         ));
-        return $this->respondCollection($places, new PlaceTransformer(), 'place');
-    }
-
-    
-    public function all()
-    {
-        $places = Place::find();
 
         //print_r($places->City);
 
