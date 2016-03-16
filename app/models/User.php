@@ -10,16 +10,16 @@ class User extends \App\Mvc\Model
 
     public function getSource()
     {
-        return 'users';
+        return 'user';
     }
 
     public function columnMap()
     {
         return [
             'id' => 'id',
-            'first_name' => 'firstName',
-            'last_name' => 'lastName',
-            'username' => 'username',
+            'name' => 'firstName',
+            'datetime' => 'lastName',
+            'status' => 'username',
             'password' => 'password',
             'updated_at' => 'updatedAt',
             'created_at' => 'createdAt',
