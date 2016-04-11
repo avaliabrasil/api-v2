@@ -29,21 +29,21 @@ class City extends \App\Mvc\Model
     }
 
     public function initialize() {
-        $this->hasMany("id", "Place", "id_city", array(
-            "alias" => "CityName",
-        ));
+        // $this->hasMany("id", "Place", "id_city", array(
+        //     "alias" => "CityName",
+        // ));
 
-        $this->belongsTo(
-            "id_state",
-            "State",
-            "id",
-            array(
-                "foreignKey" => array(
-                    "allowNulls" => false,
-                    "message"    => "The id_state does not exist on the State model"
-                )
-            )
-        );
+        // $this->belongsTo(
+        //     "id_state",
+        //     "State",
+        //     "id",
+        //     array(
+        //         "foreignKey" => array(
+        //             "allowNulls" => false,
+        //             "message"    => "The id_state does not exist on the State model"
+        //         )
+        //     )
+        // );
 
     }
 
